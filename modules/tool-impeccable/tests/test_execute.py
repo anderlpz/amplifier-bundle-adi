@@ -19,6 +19,7 @@ async def test_execute_clean_when_no_findings():
     result = await tool.execute({"url": "http://localhost:5173"})
 
     assert result.success is True
+    assert isinstance(result.output, dict)
     assert result.output["status"] == "CLEAN"
     assert result.output["findings"] == []
 
@@ -39,6 +40,7 @@ async def test_execute_findings_when_slop_detected():
     result = await tool.execute({"url": "http://localhost:5173"})
 
     assert result.success is True
+    assert isinstance(result.output, dict)
     assert result.output["status"] == "FINDINGS"
     assert result.output["findings"] == [finding]
 
@@ -51,6 +53,7 @@ async def test_execute_reports_missing_cli():
     result = await tool.execute({"url": "http://localhost:5173"})
 
     assert result.success is False
+    assert isinstance(result.output, str)
     assert "not found" in result.output.lower()
 
 
@@ -62,4 +65,5 @@ async def test_execute_reports_cli_error():
     result = await tool.execute({"url": "http://localhost:5173"})
 
     assert result.success is False
+    assert isinstance(result.output, str)
     assert "boom" in result.output
