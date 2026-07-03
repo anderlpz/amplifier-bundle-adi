@@ -20,3 +20,13 @@ packages = ["amplifier_module_tool_dom_extract"]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
+
+[tool.uv.sources]
+amplifier-core = { path = "../../../amplifier-core", editable = true }
+
+[dependency-groups]
+dev = [
+    "amplifier-core",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
