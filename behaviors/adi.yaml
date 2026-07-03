@@ -1,0 +1,23 @@
+---
+bundle:
+  name: adi-behavior
+  version: 0.1.0
+  description: >
+    Wires ADI's own tool modules (the Tier 1 Impeccable wrapper for deterministic
+    slop detection and the DOM Intelligence extraction tool for the render step),
+    the quality-gate agent that certifies convergence, and the render-matrix
+    context describing the evaluation surface.
+
+tools:
+  - module: tool-impeccable
+    source: ./modules/tool-impeccable
+  - module: tool-dom-extract
+    source: ./modules/tool-dom-extract
+
+agents:
+  quality-gate:
+    path: adi:agents/quality-gate.md
+
+context:
+  include:
+    - adi:context/render-matrix.md
