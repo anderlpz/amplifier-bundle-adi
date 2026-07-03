@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Wraps the impeccable design-slop detector CLI, returning CLEAN or structured findings."
 requires-python = ">=3.11"
 license = { text = "MIT" }
-dependencies = ["amplifier-core>=0.1.0"]
+dependencies = []
 
 [project.entry-points."amplifier.modules"]
 tool-impeccable = "amplifier_module_tool_impeccable:mount"
