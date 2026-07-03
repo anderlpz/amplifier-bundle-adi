@@ -1,0 +1,22 @@
+[project]
+name = "amplifier-module-tool-dom-extract"
+version = "0.1.0"
+description = "Extracts a structured DOM Intelligence Package (accessibility tree, computed styles, DOM structure, layout geometry) from a live page."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = []
+
+[project.entry-points."amplifier.modules"]
+tool-dom-extract = "amplifier_module_tool_dom_extract:mount"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["amplifier_module_tool_dom_extract"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
