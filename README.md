@@ -2,6 +2,28 @@
 
 A two-tier convergence loop for design quality — Impeccable keeps the floor clean (deterministic slop detection on live DOM), the Design Intelligence Council focuses on the ceiling (7-lens semantic evaluation). Both must pass on the same render for the loop to exit.
 
+## Installation
+
+```bash
+# Add the bundle
+amplifier bundle add git+https://github.com/anderlpz/amplifier-bundle-adi@main
+
+# Activate it
+amplifier bundle use adi
+```
+
+Or include it in your own bundle's `bundle.md`:
+
+```yaml
+includes:
+  - bundle: git+https://github.com/anderlpz/amplifier-bundle-adi@main
+```
+
+### Prerequisites
+
+- [Impeccable](https://impeccable.style) CLI: `npm install -g impeccable`
+- [agent-browser](https://github.com/vercel-labs/agent-browser) CLI: `npm install -g agent-browser && agent-browser install`
+
 ## The Convergence Loop
 
 ```
