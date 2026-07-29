@@ -10,9 +10,9 @@ bundle:
 
 tools:
   - module: tool-impeccable
-    source: ./modules/tool-impeccable
+    source: adi:modules/tool-impeccable
   - module: tool-dom-extract
-    source: ./modules/tool-dom-extract
+    source: adi:modules/tool-dom-extract
 
 agents:
   quality-gate:
