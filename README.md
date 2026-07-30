@@ -24,6 +24,32 @@ includes:
 - [Impeccable](https://impeccable.style) CLI: `npm install -g impeccable`
 - [agent-browser](https://github.com/vercel-labs/agent-browser) CLI: `npm install -g agent-browser && agent-browser install`
 
+## Usage
+
+ADI is **invoke-then-load**: nothing heavy is mounted into your session until you
+explicitly call it. Run the convergence loop with the `/adi` slash command:
+
+```
+/adi <target>
+```
+
+`<target>` is a URL or a reference to a rendered UI target you want certified.
+
+```
+/adi https://staging.example.com/pricing
+```
+
+`/adi` is the only front door. It delegates to the `adi-orchestrator` agent, which
+mounts the full toolchain (browser-tester, design-intelligence, `tool-impeccable`,
+`tool-dom-extract`) and runs the render → Tier 1 → Tier 2 → certify loop **in its own
+isolated sub-session** — so your root session carries near-zero footprint until the
+moment you invoke it. The orchestrator uses the `quality-gate` agent as the
+independent authority that certifies both tiers passed on the same render.
+
+> **Note:** the `/adi` skill is discoverable because this bundle wires `tool-skills`.
+> If you compose ADI into another bundle, ensure a skills tool is present so the
+> slash command is registered.
+
 ## The Convergence Loop
 
 ```
@@ -41,6 +67,8 @@ Render → Tier 1 (Impeccable) → Tier 2 (Design Council) → Verdict
 
 | Deliverable | Description |
 |-------------|-------------|
+| **`/adi` skill** | User-invoked front door (`/adi <target>`); delegates to the orchestrator and mounts nothing until called |
+| **adi-orchestrator agent** | Spawned by `/adi` in its own sub-session; owns the full toolchain and runs the convergence loop |
 | **tool-impeccable** | CLI wrapper that invokes the Impeccable.style deterministic linter |
 | **tool-dom-extract** | DOM Intelligence Package — structured DOM extraction for semantic evaluation |
 | **quality-gate agent** | Independent authority that certifies both tiers passed on the same render |
