@@ -1,23 +1,22 @@
 ---
 bundle:
   name: adi-behavior
-  version: 0.1.0
+  version: 0.2.0
   description: >
-    Wires ADI's own tool modules (the Tier 1 Impeccable wrapper for deterministic
-    slop detection and the DOM Intelligence extraction tool for the render step),
-    the quality-gate agent that certifies convergence, and the render-matrix
-    context describing the evaluation surface.
-
-tools:
-  - module: tool-impeccable
-    source: adi:modules/tool-impeccable
-  - module: tool-dom-extract
-    source: adi:modules/tool-dom-extract
+    Thin wiring for ADI's invoke-then-load surface. Registers the two agents
+    (adi-orchestrator, quality-gate) as cheap name+description metadata only —
+    their heavy tool/sub-bundle/context composition lives in the agent files
+    themselves and loads only when spawned via delegate. Also wires the
+    /adi skill so it is discoverable as a slash command.
 
 agents:
-  quality-gate:
-    path: adi:agents/quality-gate.md
-
-context:
   include:
-    - adi:context/render-matrix.md
+    - adi:adi-orchestrator
+    - adi:quality-gate
+
+tools:
+  - module: tool-skills
+    source: git+https://github.com/microsoft/amplifier-bundle-skills@main#subdirectory=modules/tool-skills
+    config:
+      skills:
+        - "@adi:skills"
