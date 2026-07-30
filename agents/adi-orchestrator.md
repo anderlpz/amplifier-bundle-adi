@@ -48,9 +48,9 @@ includes:
 
 tools:
   - module: tool-impeccable
-    source: adi:modules/tool-impeccable
+    source: git+https://github.com/anderlpz/amplifier-bundle-adi@main#subdirectory=modules/tool-impeccable
   - module: tool-dom-extract
-    source: adi:modules/tool-dom-extract
+    source: git+https://github.com/anderlpz/amplifier-bundle-adi@main#subdirectory=modules/tool-dom-extract
 ---
 
 # ADI Orchestrator

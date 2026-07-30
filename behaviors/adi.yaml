@@ -19,4 +19,15 @@ tools:
     source: git+https://github.com/microsoft/amplifier-bundle-skills@main#subdirectory=modules/tool-skills
     config:
       skills:
+        # Foundation (composed in bundle.md) already brings the curated skills
+        # collection via its own tool-skills declaration. Re-declaring the
+        # curated source here too, alongside "@adi:skills", guarantees the
+        # /adi skill survives regardless of exactly how the two tool-skills
+        # declarations (foundation's default + this one) get merged during
+        # composition -- rather than depending solely on cross-bundle list
+        # concatenation, which DTU validation showed does not reliably
+        # surface this bundle's own skill. This is the same pattern
+        # documented in amplifier-bundle-skills' own README under "Add your
+        # own skills alongside curated ones".
+        - "git+https://github.com/microsoft/amplifier-bundle-skills@main#subdirectory=skills"
         - "@adi:skills"
