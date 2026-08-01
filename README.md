@@ -4,29 +4,28 @@ A two-tier convergence loop for design quality — Impeccable keeps the floor cl
 
 ## Installation
 
-One command to add, one to activate — then start a session and use `/adi`. Same
-flow as `/design-council` and the other `/`-command bundles:
+One command. `/adi` then works in every session — no need to switch your active
+bundle. Same as `/design-council` and the other `/`-command bundles:
 
 ```bash
-# 1. Add the bundle (fetches from GitHub, registers it)
-amplifier bundle add git+https://github.com/anderlpz/amplifier-bundle-adi@main
-
-# 2. Activate it
-amplifier bundle use adi
-
-# 3. Start a fresh session — /adi is now available
-amplifier run
+amplifier bundle add git+https://github.com/anderlpz/amplifier-bundle-adi@main --app
 ```
 
-Then in the session:
+The `--app` flag composes ADI onto every session automatically, regardless of
+which primary bundle you're using. Start (or restart) a session and `/adi` is
+available:
 
 ```
 /adi https://staging.example.com/pricing
 ```
 
-Prefer `/adi` alongside your everyday workflow instead of switching bundles?
-Include it in your own bundle's `bundle.md` — it composes cleanly next to
-design-council and other `/`-command bundles:
+> **Why `--app`?** It adds ADI as an "app bundle" that's always composed in, so
+> you never have to run `amplifier bundle use`. Leave off `--app` if you only
+> want ADI registered for occasional use via `amplifier bundle use adi` instead.
+
+Prefer to wire it into a bundle you already maintain? Include it in that bundle's
+`bundle.md` — it composes cleanly next to design-council and other `/`-command
+bundles:
 
 ```yaml
 includes:
