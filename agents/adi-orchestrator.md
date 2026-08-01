@@ -84,6 +84,30 @@ not a single screenshot. See the full evaluation surface below:
 
 ## Workflow
 
+0. **PREFLIGHT — verify external CLIs, offer to install what's missing (MANDATORY, run before anything else).**
+   ADI's convergence loop depends on two external CLIs that are NOT bundled and
+   must exist on the host:
+   - **Impeccable** (Tier 1 deterministic gate) — install: `npm install -g impeccable`
+   - **agent-browser** (rendering / DOM capture) — install: `npm install -g agent-browser && agent-browser install`
+
+   Before capturing any render, check both with bash:
+   ```
+   which impeccable
+   which agent-browser
+   ```
+   - If **both** resolve to a path, proceed to step 1 silently.
+   - If **either** is missing, STOP and do NOT start the loop. Tell the user
+     plainly which CLI is missing and the exact install command(s) above, then
+     **ASK for explicit approval** to install — e.g. "Impeccable isn't installed.
+     I can run `npm install -g impeccable` for you. Install it now? (yes/no)".
+   - Only **after** the user approves, run the corresponding install command(s)
+     via bash, then re-run the `which` check to confirm success. If an install
+     fails (e.g. npm missing, permissions), report the real error and stop —
+     do not proceed on a failed prerequisite.
+   - **Never auto-install silently and never fake success.** Installation is
+     always approval-gated. If the user declines, stop and report that ADI
+     cannot run without the missing CLI rather than proceeding or pretending.
+
 1. **Capture the render matrix.** Use browser-tester to navigate the live
    target across every declared cell. On each cell's single page visit,
    capture the screenshot, run `tool-impeccable` against the live DOM/CSS,

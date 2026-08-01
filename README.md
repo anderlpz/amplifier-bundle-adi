@@ -4,25 +4,47 @@ A two-tier convergence loop for design quality — Impeccable keeps the floor cl
 
 ## Installation
 
+One command to add, one to activate — then start a session and use `/adi`. Same
+flow as `/design-council` and the other `/`-command bundles:
+
 ```bash
-# Add the bundle
+# 1. Add the bundle (fetches from GitHub, registers it)
 amplifier bundle add git+https://github.com/anderlpz/amplifier-bundle-adi@main
 
-# Activate it
+# 2. Activate it
 amplifier bundle use adi
+
+# 3. Start a fresh session — /adi is now available
+amplifier run
 ```
 
-Or include it in your own bundle's `bundle.md`:
+Then in the session:
+
+```
+/adi https://staging.example.com/pricing
+```
+
+Prefer `/adi` alongside your everyday workflow instead of switching bundles?
+Include it in your own bundle's `bundle.md` — it composes cleanly next to
+design-council and other `/`-command bundles:
 
 ```yaml
 includes:
   - bundle: git+https://github.com/anderlpz/amplifier-bundle-adi@main
 ```
 
-### Prerequisites
+### Prerequisites (auto-offered on first run — no manual setup required)
 
-- [Impeccable](https://impeccable.style) CLI: `npm install -g impeccable`
-- [agent-browser](https://github.com/vercel-labs/agent-browser) CLI: `npm install -g agent-browser && agent-browser install`
+ADI's convergence loop uses two external CLIs. **You do not have to install these
+in advance.** The first time you run `/adi`, the orchestrator checks for them and,
+if either is missing, tells you exactly what's missing and **offers to install it
+for you — with your approval.** Nothing is installed silently.
+
+- [Impeccable](https://impeccable.style) CLI — `npm install -g impeccable`
+- [agent-browser](https://github.com/vercel-labs/agent-browser) CLI — `npm install -g agent-browser && agent-browser install`
+
+If you'd rather set them up manually beforehand, the commands above are all you
+need. (`npm` / Node.js must be present for either path.)
 
 ## Usage
 

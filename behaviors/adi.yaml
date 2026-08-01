@@ -15,19 +15,14 @@ agents:
     - adi:quality-gate
 
 tools:
+  # Point the skills tool at ADI's own skills/ directory so the /adi front door
+  # is discovered. This mirrors design-council's behavior exactly: bundle.md
+  # includes the full amplifier-bundle-skills bundle (which brings the tool AND
+  # the curated collection), and this behavior adds only "@adi:skills" on top.
+  # The two tool-skills declarations merge by module ID; the curated collection
+  # comes from the top-level include, ADI's own skill comes from here.
   - module: tool-skills
     source: git+https://github.com/microsoft/amplifier-bundle-skills@main#subdirectory=modules/tool-skills
     config:
       skills:
-        # Foundation (composed in bundle.md) already brings the curated skills
-        # collection via its own tool-skills declaration. Re-declaring the
-        # curated source here too, alongside "@adi:skills", guarantees the
-        # /adi skill survives regardless of exactly how the two tool-skills
-        # declarations (foundation's default + this one) get merged during
-        # composition -- rather than depending solely on cross-bundle list
-        # concatenation, which DTU validation showed does not reliably
-        # surface this bundle's own skill. This is the same pattern
-        # documented in amplifier-bundle-skills' own README under "Add your
-        # own skills alongside curated ones".
-        - "git+https://github.com/microsoft/amplifier-bundle-skills@main#subdirectory=skills"
         - "@adi:skills"

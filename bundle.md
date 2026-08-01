@@ -12,6 +12,11 @@ bundle:
 includes:
   # Foundation base (tools, session config, hooks) — ADI's own pieces are agent-scoped
   - bundle: git+https://github.com/microsoft/amplifier-foundation@main
+  # Skills tool — brings the curated skills collection AND registers the /adi slash
+  # command. Included at top level (the same pattern design-council uses) so the
+  # skills tool is unconditionally present and the /adi front door is discoverable
+  # regardless of foundation internals. See behaviors/adi.yaml for the @adi:skills wiring.
+  - bundle: git+https://github.com/microsoft/amplifier-bundle-skills@main
   # ADI's own agents (adi-orchestrator, quality-gate) and the /adi skill front door.
   # Everything heavy — browser-tester, design-intelligence-enhanced, tool-impeccable,
   # tool-dom-extract, render-matrix context — is composed INSIDE adi-orchestrator and
