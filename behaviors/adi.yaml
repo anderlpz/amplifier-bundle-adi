@@ -16,13 +16,12 @@ agents:
 
 tools:
   # Point the skills tool at ADI's own skills/ directory so the /adi front door
-  # is discovered. This mirrors design-council's behavior exactly: bundle.md
-  # includes the full amplifier-bundle-skills bundle (which brings the tool AND
-  # the curated collection), and this behavior adds only "@adi:skills" on top.
-  # The two tool-skills declarations merge by module ID; the curated collection
-  # comes from the top-level include, ADI's own skill comes from here.
+  # is discovered. IMPORTANT: the mount-time resolver for `config.skills` only
+  # handles remote (git+/https) sources and literal filesystem paths — it does
+  # NOT resolve "@namespace:path" mentions (those are silently dropped at debug
+  # level). So we must use the git+subdirectory form here, not "@adi:skills".
   - module: tool-skills
     source: git+https://github.com/microsoft/amplifier-bundle-skills@main#subdirectory=modules/tool-skills
     config:
       skills:
-        - "@adi:skills"
+        - "git+https://github.com/anderlpz/amplifier-bundle-adi@main#subdirectory=skills"
