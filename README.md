@@ -5,15 +5,30 @@ A two-tier convergence loop for design quality — Impeccable keeps the floor cl
 ## Installation
 
 One command. `/adi` then works in every session — no need to switch your active
-bundle. Same as `/design-council` and the other `/`-command bundles:
+bundle. Same as `/design-council` and the other `/`-command bundles.
+
+### Option 1 — Full bundle (recommended)
+
+Self-contained: brings ADI plus its baseline dependencies. Best if you're not
+sure which to pick.
 
 ```bash
 amplifier bundle add git+https://github.com/anderlpz/amplifier-bundle-adi@main --app
 ```
 
-The `--app` flag composes ADI onto every session automatically, regardless of
-which primary bundle you're using. Start (or restart) a session and `/adi` is
-available:
+### Option 2 — Behavior only (lightweight)
+
+Just ADI's wiring (its agents + the `/adi` skill), with no baseline dependencies
+pulled in — it slots into your existing setup. Ideal if you already run a loaded
+rig with other `/`-command bundles (this is how `superpowers`, `team-pulse`, and
+`design-council` behaviors are typically added):
+
+```bash
+amplifier bundle add "git+https://github.com/anderlpz/amplifier-bundle-adi@main#subdirectory=behaviors/adi.yaml" --app
+```
+
+Both options are verified end-to-end. Either way, start (or restart) a session
+and `/adi` is available:
 
 ```
 /adi https://staging.example.com/pricing
@@ -29,7 +44,10 @@ bundles:
 
 ```yaml
 includes:
+  # full bundle
   - bundle: git+https://github.com/anderlpz/amplifier-bundle-adi@main
+  # ...or behavior only
+  - bundle: git+https://github.com/anderlpz/amplifier-bundle-adi@main#subdirectory=behaviors/adi.yaml
 ```
 
 ### Prerequisites (auto-offered on first run — no manual setup required)
