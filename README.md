@@ -74,13 +74,26 @@ explicitly call it. Run the convergence loop with the `/adi` slash command:
 
 `<target>` is a URL or a reference to a rendered UI target you want certified.
 
+**Recommended first run — no live URL needed.** This repo ships a deliberately
+flawed local pricing page so you can see the loop work immediately:
+
+```
+/adi ./examples/pricing.html
+```
+
+That target contains intentional slop for both tiers to catch (mixed units,
+low-contrast text, magic numbers, non-semantic buttons, inverted hierarchy,
+placeholder states). See [`examples/pricing.html`](examples/pricing.html) for
+the annotated list, and ["What you get"](#what-you-get) below for an illustrative
+run. Once you've seen it, point `/adi` at a real target:
+
 ```
 /adi https://staging.example.com/pricing
 ```
 
 `/adi` is the only front door. It delegates to the `adi-orchestrator` agent, which
-mounts the full toolchain (browser-tester, design-intelligence, `tool-impeccable`,
-`tool-dom-extract`) and runs the render → Tier 1 → Tier 2 → certify loop **in its own
+mounts the full toolchain (browser-tester, the Design Intelligence Council,
+`tool-impeccable`, `tool-dom-extract`) and runs the render → Tier 1 → Tier 2 → certify loop **in its own
 isolated sub-session** — so your root session carries near-zero footprint until the
 moment you invoke it. The orchestrator uses the `quality-gate` agent as the
 independent authority that certifies both tiers passed on the same render.
@@ -88,6 +101,70 @@ independent authority that certifies both tiers passed on the same render.
 > **Note:** the `/adi` skill is discoverable because this bundle wires `tool-skills`.
 > If you compose ADI into another bundle, ensure a skills tool is present so the
 > slash command is registered.
+
+## What You Get
+
+Here is an **illustrative** run of `/adi ./examples/pricing.html` — the recommended
+first target, which ships with intentional flaws. This shows the shape of the
+output; exact findings depend on the current Impeccable ruleset, the design
+lenses, and the render. It is not a recorded transcript.
+
+**Render matrix evaluated**
+
+| Cell | Viewport | State | Interaction |
+|------|----------|-------|-------------|
+| 1 | mobile (375px) | populated | default |
+| 2 | tablet (768px) | populated | default |
+| 3 | desktop (1440px) | populated | default |
+
+**Tier 1 — Impeccable (deterministic slop) → `FINDINGS`**
+
+```
+FINDINGS (7):
+  [contrast]      .muted #b8b8b8 on #ffffff — 2.1:1, fails WCAG AA (needs ≥4.5:1)
+  [contrast]      .btn.ghost #cfcfcf on #f4f4f4 — 1.3:1, fails WCAG AA
+  [magic-number]  arbitrary values: padding:13px, margin:27px, width:341px
+  [unit-mixing]   px, rem, em, % mixed with no consistent scale
+  [color-token]   three near-identical blues: #2b6cff, #2d6dfe, #3a75ff
+  [semantics]     clickable <div class="btn"> — not a <button>/<a>, no focus state
+  [a11y]          <img src="logo.png"> missing alt text
+→ Fix loop runs; Tier 2 does NOT start until Tier 1 is CLEAN.
+```
+
+**Tier 2 — Design Intelligence Council (7 lenses, on a Tier-1-CLEAN render)**
+
+```
+originality-critic   CONCERN  Generic SaaS-pricing template; nothing distinctive.
+coherence-guardian   FAIL     Playful hero + corporate cards + alarmist footer tell three stories.
+human-advocate       FAIL     Tiny tap targets, color-only signaling, no focus states exclude real users.
+craft-inspector      FAIL     Placeholder states shipped: "Lorem ipsum", "TODO: price", dead "Coming soon".
+context-tester       CONCERN  341px fixed cards overflow the 375px mobile viewport.
+purpose-keeper       CONCERN  Visual emphasis points at "Basic" — the least valuable plan (hierarchy inversion).
+emotion-reader       FAIL     Footer manufactures false urgency; CTAs give no real reason to click.
+—
+Synthesized verdict: FAIL. Dissent recorded: originality-critic rated CONCERN, not FAIL.
+```
+
+**Quality gate — independent certification**
+
+```
+VERDICT: NOT CERTIFIED
+
+Render:   desktop/1440 · populated · default — ./examples/pricing.html
+Tier 1:   CLEAN     — deterministic gate passed after fix loop
+Tier 2:   FAIL      — council synthesized FAIL (coherence, inclusion, craft, affect)
+
+Reasoning:
+Tier 1 converged to CLEAN, but the Design Intelligence Council returned a
+blocking FAIL: incoherent visual story, exclusionary interaction design,
+shipped placeholder states, and manufactured urgency. Certification requires
+BOTH tiers to pass on the same render. Address the four blocking lens findings,
+re-render, and re-run — Tier 1 first, then Tier 2.
+```
+
+That `NOT CERTIFIED` block is the point: ADI refuses to certify hollow work, and
+tells you exactly what to fix. Run it against a polished target and the same
+loop returns `CERTIFIED` with the evidence recorded.
 
 ## The Convergence Loop
 
@@ -129,8 +206,7 @@ ADI is a composable design quality studio. Impeccable and the Design Council are
 | Bundle / Tool | Role |
 |---------------|------|
 | [amplifier-bundle-browser-tester](https://github.com/microsoft/amplifier-bundle-browser-tester) | Rendering + DOM extraction primitives |
-| [amplifier-bundle-design-intelligence-enhanced](https://github.com/anderlpz/amplifier-bundle-design-intelligence-enhanced) | Tier 2 semantic evaluators |
-| [amplifier-bundle-design-council](https://github.com/anderlpz/amplifier-bundle-design-council) | 7-lens design evaluation council |
+| [amplifier-bundle-design-council](https://github.com/microsoft/amplifier-bundle-design-council) | Tier 2 semantic evaluator — Design Intelligence Council (7 orthogonal lenses) |
 | Impeccable.style CLI | Tier 1 deterministic slop detection |
 
 ## Contributing

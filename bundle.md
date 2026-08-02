@@ -18,7 +18,7 @@ includes:
   # regardless of foundation internals. See behaviors/adi.yaml for the @adi:skills wiring.
   - bundle: git+https://github.com/microsoft/amplifier-bundle-skills@main
   # ADI's own agents (adi-orchestrator, quality-gate) and the /adi skill front door.
-  # Everything heavy — browser-tester, design-intelligence-enhanced, tool-impeccable,
+  # Everything heavy — browser-tester, the Design Intelligence Council, tool-impeccable,
   # tool-dom-extract, render-matrix context — is composed INSIDE adi-orchestrator and
   # only loads when that agent is spawned via /adi. See agents/adi-orchestrator.md.
   - bundle: adi:behaviors/adi
@@ -35,7 +35,7 @@ it orchestrates. None of the composed pieces know ADI exists.
 amplifier-bundle-adi
    └─ agents/adi-orchestrator.md (spawned via /adi, agent-scoped composition)
         ├─ includes → amplifier-bundle-browser-tester    (rendering + DOM extraction)
-        ├─ includes → design-intelligence-enhanced       (Tier 2 evaluators)
+        ├─ wires    → amplifier-bundle-design-council     (Tier 2: 7-lens council)
         └─ wraps    → Impeccable.style CLI                (Tier 1 via modules/tool-impeccable)
 ```
 

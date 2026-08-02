@@ -46,7 +46,10 @@ class ImpeccableTool:
         except FileNotFoundError:
             return ToolResult(
                 success=False,
-                output="impeccable CLI not found. Ensure `npx` is on PATH.",
+                output=(
+                    "impeccable CLI not found. Install it globally with: "
+                    "npm install -g impeccable"
+                ),
             )
         except RuntimeError as exc:
             return ToolResult(
@@ -58,8 +61,12 @@ class ImpeccableTool:
         return ToolResult(success=True, output={"status": status, "findings": findings})
 
     async def _run_detect(self, target: str) -> list:
+        # Invoke the globally-installed `impeccable` binary directly (installed via
+        # `npm install -g impeccable`). This matches the orchestrator preflight
+        # (`which impeccable`) and the README install instruction. Do NOT use
+        # `npx impeccable` — npx would resolve a different/absent package and
+        # diverge from the preflight check.
         process = await asyncio.create_subprocess_exec(
-            "npx",
             "impeccable",
             "detect",
             "--json",

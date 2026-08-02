@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+  ADI EXAMPLE TARGET — pricing.html
+  =================================
+  A deliberately-flawed static pricing page used as the recommended FIRST RUN
+  for ADI: `/adi ./examples/pricing.html`. No external dependencies; open it
+  directly in a browser.
+
+  It is a TEACHING ARTIFACT. The problems below are intentional so that Tier 1
+  (Impeccable — deterministic slop) and Tier 2 (the 7-lens Design Intelligence
+  Council — semantic) both have something real to flag.
+
+  INTENTIONAL ISSUES (do not "fix" — they are the point):
+
+  Tier 1 candidates (deterministic / mechanical slop):
+    1. Mixed spacing units — px, rem, em, and % used interchangeably with no scale.
+    2. Arbitrary magic-number values — padding: 13px, margin: 27px, width: 341px.
+    3. Low-contrast text — #b8b8b8 on #ffffff and #cfcfcf on #f4f4f4 (fails WCAG AA).
+    4. Inconsistent color tokens — three near-identical blues (#2b6cff, #2d6dfe, #3a75ff).
+    5. Non-semantic markup — clickable <div> "buttons" instead of <button>/<a>.
+    6. Missing alt text / unlabeled interactive controls.
+    7. Inline styles fighting the stylesheet (specificity slop).
+
+  Tier 2 candidates (semantic / design-judgment):
+    8. Broken visual hierarchy — the least important plan is the most emphasized.
+    9. Unfinished / placeholder states — "Lorem ipsum", "TODO: price", a dead "Coming soon".
+   10. Incoherent story — playful hero, corporate cards, alarmist footer.
+   11. Hollow affect — technically present CTAs with no reason to click.
+   12. Excludes real users — tiny tap targets, no focus states, color-only signaling.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing</title>
+  <style>
+    body {
+      font-family: Inter, Arial, sans-serif; /* overused default font */
+      margin: 0;
+      color: #333;
+    }
+    /* Mixed units + magic numbers throughout */
+    .hero {
+      padding: 27px 13px;
+      background: linear-gradient(90deg, #2b6cff, #3a75ff);
+      color: #ffffff;
+      text-align: center;
+    }
+    .hero h1 { font-size: 2.4rem; margin-bottom: 9px; }
+    .hero p { color: #cfcfcf; font-size: 15px; } /* low contrast on gradient */
+
+    .plans {
+      display: flex;
+      gap: 1.3em;
+      padding: 40px 27px;
+      flex-wrap: wrap;
+    }
+    .card {
+      border: 1px solid #eee;
+      border-radius: 6px;
+      padding: 13px;
+      width: 341px;              /* arbitrary fixed width */
+      box-sizing: border-box;
+    }
+    /* Hierarchy inversion: the cheapest/least important plan screams loudest */
+    .card.basic {
+      transform: scale(1.08);
+      box-shadow: 0 12px 40px rgba(43, 108, 255, 0.5);
+      border: 3px solid #2d6dfe;
+    }
+    .card.pro { opacity: 0.92; }
+    .card h2 { font-size: 1.1rem; }
+    .price { font-size: 34px; margin: 18px 0 27px 0; }
+    .muted { color: #b8b8b8; }   /* fails contrast on white */
+
+    /* Clickable divs styled as buttons — non-semantic, no focus state */
+    .btn {
+      background: #2b6cff;
+      color: #fff;
+      padding: 11px 19px;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 13px;
+      display: inline-block;
+    }
+    .btn.ghost { background: #f4f4f4; color: #cfcfcf; } /* low contrast */
+
+    .footer {
+      background: #1a1a1a;
+      color: #cccccc;
+      padding: 27px 13px;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Pricing that just works 🎉</h1>
+    <p>Pick a plan. Or don't. We're pretty flexible about it honestly.</p>
+  </header>
+
+  <main class="plans">
+    <!-- Least important plan, visually dominant (hierarchy inversion) -->
+    <div class="card basic">
+      <h2>Basic</h2>
+      <div class="price">$9<span class="muted">/mo</span></div>
+      <p class="muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <!-- non-semantic button, inline style fighting stylesheet -->
+      <div class="btn" style="background:#3a75ff;">Get started</div>
+    </div>
+
+    <div class="card pro">
+      <h2>Pro</h2>
+      <div class="price">$<!-- TODO: price -->29<span class="muted">/mo</span></div>
+      <p>Everything in Basic, plus more stuff.</p>
+      <div class="btn">Choose Pro</div>
+    </div>
+
+    <div class="card enterprise">
+      <h2>Enterprise</h2>
+      <div class="price muted">Coming soon</div>
+      <p class="muted">Contact us maybe.</p>
+      <!-- dead / disabled-looking control with no state, tiny tap target -->
+      <div class="btn ghost">Talk to sales</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    ⚠️ ACT NOW — these prices may change without warning at any moment!!!
+    <br />
+    <img src="logo.png" />  <!-- missing alt text, broken image -->
+  </footer>
+</body>
+</html>

@@ -9,7 +9,7 @@ model_role: critique
 # ADI: Run the Convergence Loop
 
 You are a thin front door. Your only job is to delegate to `adi:adi-orchestrator`,
-which mounts ADI's full toolchain (browser-tester, design-intelligence-enhanced,
+which mounts ADI's full toolchain (browser-tester, the Design Intelligence Council,
 tool-impeccable, tool-dom-extract) in its own isolated child session and runs the
 certified convergence loop there. You do not run any of that work yourself.
 
