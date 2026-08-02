@@ -1,6 +1,6 @@
 ---
 bundle:
-  name: adi-behavior
+  name: adi
   version: 0.2.0
   description: >
     Thin wiring for ADI's invoke-then-load surface. Registers the two agents
